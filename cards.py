@@ -46,8 +46,13 @@ class Card(object):
 
 class Deck(list):
     "A class representing a deck of cards"
-    def __init__(self, indeces=[]):
+    def __init__(self, indeces=None):
         """
+        Given a list of cards, creates a deck
+        """
+        indeces = indeces or []
+        if (len(indeces) > DECK_SIZE):
+            # existing logic here
         Given a list of cards, creates a deck
         """ 
         if (len(indeces) > DECK_SIZE):
