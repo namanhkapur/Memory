@@ -36,10 +36,7 @@ class Card(object):
         Returns a nice string representation that looks good on a 2D board
         """
         symbol = CARD_RANKS[self.rank] + CARD_SUITS[self.suit]
-        if (len(symbol) == 3):
-            return CARD_RANKS[self.rank] + CARD_SUITS[self.suit]
-        else:
-            return CARD_RANKS[self.rank] + CARD_SUITS[self.suit] + " "
+        return CARD_RANKS[self.rank] + CARD_SUITS[self.suit] + (" " if len(CARD_RANKS[self.rank]) == 1 else "")
 
     def __repr__(self):
         """
@@ -49,8 +46,13 @@ class Card(object):
 
 class Deck(list):
     "A class representing a deck of cards"
-    def __init__(self, indeces=[]):
+    def __init__(self, indeces=None):
         """
+        Given a list of cards, creates a deck
+        """
+        indeces = indeces or []
+        if (len(indeces) > DECK_SIZE):
+            # existing logic here
         Given a list of cards, creates a deck
         """ 
         if (len(indeces) > DECK_SIZE):

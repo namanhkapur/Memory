@@ -97,7 +97,8 @@ class Memory(object):
 			self.show_wrong_guess(row1, col1, row2, col2)
 			return (False, None, None)
 
-	def show_cards(self):
+	# Removed broken method: show_cards
+# def show_cards(self):
 		"""
 		Shows all the cards in the game <should never be called by
 		players of the game>
@@ -211,15 +212,16 @@ def main():
 				if (len(guess) != 4):
 					print ("Please input 4 guesses.")
 					continue
-				elif (guess[1:] == guess[:-1]):
+				elif guess[0] == guess[2] and guess[1] == guess[3]:
 					print ("Your guesses must correspond to different cards.")
 					continue
 				elif (guess[0] >= memory.rows or guess[1] >= memory.rows or guess[2] >= memory.rows or guess[3] >= memory.rows):
 					print ("Please ensure the 4 guesses are all integers less than " + str(n) + ", which is dimension of the board.")
 					continue
-				elif ('X' not in str(memory.get_card_from_board(guess[0], guess[1]))  and 'X' not in str(memory.get_card_from_board(guess[0], guess[1]))):
-					print ("You can't guess a card that is already uncovered.")
-					continue
+                elif ('X' not in str(memory.get_card_from_board(guess[0], guess[1]))  or
+                      'X' not in str(memory.get_card_from_board(guess[2], guess[3]))):
+                    print("You can't guess a card that is already uncovered.")
+                    continue
 				else:
 					break
 			player_index += 1
