@@ -16,7 +16,13 @@ class Card(object):
     "A class representing a card"
     def __init__(self, index):
         """
-        Given an index, creates a card with a rank and suit
+        Initializes a Card with a rank and suit based on the given index.
+        
+        Args:
+            index: An integer from 0 to 51 representing the card's position in a standard deck.
+        
+        Raises:
+            TypeError: If index is not an integer.
         """       
         if isinstance(index, int):
             self.rank = index % 13
@@ -27,20 +33,24 @@ class Card(object):
 
     def get_rank(self):
         """
-        Returns the rank of this card
+        Returns the rank index of the card.
+        
+        The rank is an integer from 0 (Ace) to 12 (King).
         """
         return self.rank
 
     def __str__(self):
         """
-        Returns a nice string representation that looks good on a 2D board
+        Returns a string representation of the card formatted for display on a 2D board.
+        
+        Single-character ranks are padded with a trailing space for alignment.
         """
         symbol = CARD_RANKS[self.rank] + CARD_SUITS[self.suit]
         return CARD_RANKS[self.rank] + CARD_SUITS[self.suit] + (" " if len(CARD_RANKS[self.rank]) == 1 else "")
 
     def __repr__(self):
         """
-        Returns a string representation
+        Returns a concise string representation of the card's rank and suit.
         """
         return CARD_RANKS[self.rank] + CARD_SUITS[self.suit]
 
@@ -48,7 +58,13 @@ class Deck(list):
     "A class representing a deck of cards"
     def __init__(self, indeces=None):
         """
-        Given a list of cards, creates a deck
+        Initializes a deck with a list of card indices.
+        
+        Args:
+            indeces: Optional list of integers representing card indices. If not provided, initializes an empty deck.
+        
+        Raises:
+            ValueError: If more than 52 card indices are provided.
         """
         indeces = indeces or []
         if (len(indeces) > DECK_SIZE):

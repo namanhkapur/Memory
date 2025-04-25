@@ -7,7 +7,10 @@ class Memory(object):
 	"A class representing a game of memory"
 	def __init__(self, n):
 		"""
-		Creates a new game of memory with an (n x n) board
+		Initializes a new Memory game with an n x n board.
+		
+		Raises:
+			ValueError: If n is not even or if the board size exceeds the available deck size.
 		"""
 		# checks if not enough cards to fill a (n x n)
 		if (n % 2 != 0):
@@ -27,7 +30,10 @@ class Memory(object):
 
 	def get_cards_for_board(self):
 		"""
-		Gets all the pairs of cards to fill the (n x n) board
+		Selects and returns a shuffled deck containing pairs of cards with matching ranks to fill the game board.
+		
+		Returns:
+			A shuffled deck of cards, each rank appearing exactly twice, suitable for the current board size.
 		"""
 		added_cards = []
 		num_total_cards = len(self.indeces)
@@ -44,7 +50,9 @@ class Memory(object):
 
 	def init_board(self):
 		"""
-		Initializes the board with cards
+		Initializes the game board by hiding all cards and assigning solution cards to each position.
+		
+		Sets all positions on the visible board to hidden and fills the solution board with cards drawn from the prepared deck.
 		"""
 		for r in range(self.rows):
 			for c in range(self.cols):
@@ -53,8 +61,8 @@ class Memory(object):
 				self.solution[r][c] = self.cards_for_board.draw_card()
 
 	def show_board(self):
-		""" 
-		Prints the contents of the board in a nice format
+		"""
+		Displays the current visible state of the game board with row and column indices.
 		"""
 		row = 0
 		col = "  ".join(list(map(lambda s: " " + s + " ", (list(map(str, range(self.cols)))))))
@@ -68,13 +76,23 @@ class Memory(object):
 
 	def update_board(self, row, col):
 		"""
-		Updates the board given a guess
+		Reveals the card at the specified position on the visible board.
+		
+		Args:
+			row: The row index of the card to reveal.
+			col: The column index of the card to reveal.
 		"""
 		self.board[row][col] = self.solution[row][col]
 
 	def show_wrong_guess(self, row1, col1, row2, col2):
 		"""
-		Shows the incorrect guess and then covers back the cards
+		Temporarily reveals two cards for an incorrect guess, then hides them again.
+		
+		Args:
+			row1: Row index of the first card.
+			col1: Column index of the first card.
+			row2: Row index of the second card.
+			col2: Column index of the second card.
 		"""
 		self.board[row1][col1] = self.solution[row1][col1]
 		self.board[row2][col2] = self.solution[row2][col2]
@@ -85,8 +103,18 @@ class Memory(object):
 
 	def check_guess(self, row1, col1, row2, col2):
 		"""
-		Checks whether two cards on the board match rank - if yes, 
-		returns True and the pair of cards
+		Checks if two selected cards on the board have matching ranks.
+		
+		If the cards match, reveals them on the board and returns True along with the card objects. If not, temporarily reveals both cards, then hides them again, and returns False.
+		
+		Args:
+			row1: Row index of the first card.
+			col1: Column index of the first card.
+			row2: Row index of the second card.
+			col2: Column index of the second card.
+		
+		Returns:
+			A tuple (matched, card1, card2), where matched is True and card1/card2 are the matched cards if the guess is correct; otherwise, matched is False and card1/card2 are None.
 		"""
 		if (self.solution[row1][col1].get_rank() == self.solution[row2][col2].get_rank()):
 			self.update_board(row1, col1)
@@ -108,14 +136,22 @@ class Memory(object):
 
 	def all_pairs_found(self):
 		"""
-		Indicates whether the game is over because all the cards were successfully
-		turned over
+		Returns True if all card pairs have been found and revealed.
+		
+		The game is considered complete when the visible board matches the solution board.
 		"""
 		return self.board == self.solution
 
 	def get_card_from_board(self, row, col):
 		"""
-		Returns card on board given a (row, col)
+		Returns the visible value at the specified board position.
+		
+		Args:
+			row: Row index of the board.
+			col: Column index of the board.
+		
+		Returns:
+			The card or hidden marker at the given (row, col) position on the visible board.
 		"""
 		return self.board[row][col]
 
@@ -123,7 +159,10 @@ class Player(object):
 	"A class representing a player of memory"
 	def __init__(self, name):
 		"""
-		Creates a new player of memory with a provided name
+		Initializes a player with the given name, zero score, and an empty hand.
+		
+		Args:
+			name: The player's name.
 		"""
 		self.name = name
 		self.score = 0
@@ -131,37 +170,42 @@ class Player(object):
 
 	def get_name(self):
 		"""
-		Returns the name of this player
+		Returns the player's name.
 		"""
 		return self.name
 
 	def get_score(self):
 		"""
-		Returns the score of this player
+		Returns the current score of the player.
 		"""
 		return self.score
 
 	def increment_score(self):
 		"""
-		Increments the score of this player
+		Increases the player's score by one.
 		"""
 		self.score += 1
 
 	def add_card_to_hand(self, card):
 		"""
-		Add the correclty matched pair to this player's hand
+		Adds a matched card to the player's hand.
+		
+		Args:
+			card: The card object to add to the player's hand.
 		"""
 		self.cards.append(card)
 
 	def get_hand(self):
 		"""
-		Gets the cards in this player's hand
+		Returns the list of cards currently held by the player.
 		"""
 		return self.cards
 
 def main():
 	"""
-	The main entry routine to play memory
+	Runs the interactive console-based Memory card game.
+	
+	Prompts for player names and board size, manages game setup, and handles the main game loop, including player turns, input validation, scorekeeping, and determining the winner. The game continues until all card pairs are found.
 	"""
 	print ("Welcome to the card game 'Memory' - made with \u2665 by Namanh Kapur")
 	while True:
