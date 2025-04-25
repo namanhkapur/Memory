@@ -36,10 +36,7 @@ class Card(object):
         Returns a nice string representation that looks good on a 2D board
         """
         symbol = CARD_RANKS[self.rank] + CARD_SUITS[self.suit]
-        if (len(symbol) == 3):
-            return CARD_RANKS[self.rank] + CARD_SUITS[self.suit]
-        else:
-            return CARD_RANKS[self.rank] + CARD_SUITS[self.suit] + " "
+        return CARD_RANKS[self.rank] + CARD_SUITS[self.suit] + (" " if len(CARD_RANKS[self.rank]) == 1 else "")
 
     def __repr__(self):
         """
